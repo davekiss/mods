@@ -10,6 +10,7 @@ A Claude Code mod that finds where your week went and fixes it.
 - **Sessions past the compact point.** Every turn re-reads the whole conversation, so a turn at 800k costs four times one at 200k. Each session is replayed as if it had compacted at 400k, and the difference is the saving. Fix: `"autoCompactWindow": 400000` in `~/.claude/settings.json`.
 - **Cache rebuilt after a break.** Coming back after the cache expired (an hour for Claude Code's 1h cache, 5 minutes for the 5m one) re-writes the whole conversation at cache-write price. Fix: `/clear` or `/compact` before you carry on.
 - **Read-only subagents on a big model.** Agent types whose runs only read, priced again at Haiku rates. Fix: `model: haiku` in the agent's frontmatter.
+- **Subagent cache expiring between steps.** Subagents get a 5-minute cache, so one that waits longer for its next step re-writes its whole context. A 1-hour cache (`"subagentPromptCacheTtl": "1h"`) turns those into reads but costs more per write, so it's flagged only when replaying your week with it comes out cheaper: typically an orchestrator whose subagents idle between steps.
 - **Huge tool outputs carried along.** A tool result of about 8k tokens or more that every later turn paid to re-read. Fix: a CLAUDE.md line to grep or read a range.
 
 It reads `~/.claude/projects` on your machine (every response's `message.usage`) and prices each call at the API rates in `leaks.mjs`. Nothing leaves your machine. Needs Node 22+.
@@ -31,4 +32,4 @@ Then start a new session and run `/leaks`. From a checkout: `claude --plugin-dir
 
 ## Develop
 
-`claude plugin test .` runs the tests in `tests/`.
+`claude plugin test .` runs the mod's tests, and `node --test tests/engine.spec.mjs` the engine's.

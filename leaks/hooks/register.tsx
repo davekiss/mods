@@ -42,10 +42,10 @@ export function warning(l: Live, now: number, warnAt: number, model = ''): Warni
 }
 
 // An "apply:" line from the report, as a change to a file.
-export type Fix = { kind: 'setting'; key: string; value: number } | { kind: 'claude-md'; line: string } | { kind: 'manual' }
+export type Fix = { kind: 'setting'; key: string; value: number | string } | { kind: 'claude-md'; line: string } | { kind: 'manual' }
 export function parseApply(apply: string | undefined): Fix {
-  const setting = apply?.match(/^setting (\w+)=(\d+)$/)
-  if (setting) return { kind: 'setting', key: setting[1] as string, value: Number(setting[2]) }
+  const setting = apply?.match(/^setting (\w+)=(\S+)$/)
+  if (setting) return { kind: 'setting', key: setting[1] as string, value: /^\d+$/.test(setting[2] as string) ? Number(setting[2]) : (setting[2] as string) }
   const md = apply?.match(/^CLAUDE\.md "(.+)"$/)
   if (md) return { kind: 'claude-md', line: md[1] as string }
   return { kind: 'manual' }
@@ -72,7 +72,7 @@ async function apply($: EngineInterface, leak: Leak) {
   if (fix.kind === 'setting') {
     const path = `${dir}/settings.json`
     await $.fs.write(path, withSetting(await readOr($, path), fix.key, fix.value))
-    $.ui.toast(`leaks: ${fix.key} is ${fix.value} in ~/.claude/settings.json (new sessions; /autocompact for this one)`)
+    $.ui.toast(`leaks: ${fix.key} is ${fix.value} in ~/.claude/settings.json, for new sessions`)
   } else if (fix.kind === 'claude-md') {
     const path = `${dir}/CLAUDE.md`
     await $.fs.write(path, withLine(await readOr($, path), fix.line))
@@ -221,7 +221,7 @@ export const register: Register = (on, options) => {
             <Box marginTop={1} gap={3}>
               {fix.kind !== 'manual' && (isDone
                 ? <Text key="applied" color="green">✓ applied</Text>
-                : <Button key="apply" hotkey="a" label={fix.kind === 'setting' ? `apply: ${fix.key} ${k(fix.value)}` : 'apply: add to CLAUDE.md'} onPress={() => apply($, leak)} />)}
+                : <Button key="apply" hotkey="a" label={fix.kind === 'setting' ? `apply: ${fix.key} ${typeof fix.value === 'number' ? k(fix.value) : fix.value}` : 'apply: add to CLAUDE.md'} onPress={() => apply($, leak)} />)}
               <Button key="prev" hotkey="k" plain label="up" onPress={() => pick(index - 1)} />
               <Button key="next" hotkey="j" plain label="down" onPress={() => pick(index + 1)} />
               <Button key="rescan" hotkey="r" plain dimColor label="rescan" onPress={() => scan($, `--days ${r.days}`)} />

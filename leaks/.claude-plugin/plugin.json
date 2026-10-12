@@ -1,6 +1,6 @@
 {
   "name": "leaks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
   "license": "MIT",
   "description": "Find where your Claude Code week went and fix it: /leaks ranks the avoidable spend in your transcripts with one-press fixes, and a strip above the prompt flags a leak while it happens.",

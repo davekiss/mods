@@ -2,7 +2,7 @@ import { expect, mock, test } from 'claude-code/testing'
 import type { On } from 'claude-code'
 import type { Engine } from 'claude-code/testing'
 
-import { warning, withLine, withSetting } from '../hooks/register'
+import { parseApply, warning, withLine, withSetting } from '../hooks/register'
 
 const HOME = '/Users/me'
 const MIN = 60_000
@@ -127,4 +127,10 @@ test('/leaks ranks the report, and apply writes the fix into the user\'s own fil
   await ui.press({ key: 'apply' })
   expect(files[`${HOME}/.claude/CLAUDE.md`]).toBe('# Me\n\nRead logs with grep.\n')
   await ui.unmount()
+})
+
+test('a setting fix keeps a text value as text and a number as a number', () => {
+  expect(parseApply('setting subagentPromptCacheTtl=1h')).toEqual({ kind: 'setting', key: 'subagentPromptCacheTtl', value: '1h' })
+  expect(parseApply('setting autoCompactWindow=400000')).toEqual({ kind: 'setting', key: 'autoCompactWindow', value: 400000 })
+  expect(parseApply('agent Explore model=haiku')).toEqual({ kind: 'manual' })
 })

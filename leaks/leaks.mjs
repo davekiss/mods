@@ -168,6 +168,28 @@ for (const [, cs] of agents) {
 }
 for (const [type, g] of readOnly) leaks.push({ kind: 'subagent', save: g.spent - g.asHaiku, title: `Read-only ${type} runs on ${g.model}`, detail: `${g.runs} run${g.runs === 1 ? '' : 's'} that only read (${[...g.tools].join(', ')})`, fix: `run it on Haiku: model: haiku in the agent's frontmatter · same tokens: $${g.spent.toFixed(2)} → $${g.asHaiku.toFixed(2)}`, apply: `agent ${type} model=haiku` })
 
+// 3b. Subagents whose 5-minute cache expired while they waited for their next step. A 1-hour cache
+// (subagentPromptCacheTtl) turns those rebuilds into reads, but every write costs more, so it's a
+// leak only when the replay comes out cheaper: an orchestrator whose subagents idle between steps.
+const subCache = { rebuilds: 0, actual: 0, with1h: 0 }
+for (const [, cs] of agents) {
+  let prev = null
+  for (const c of cs) {
+    const r = rate(c.model)
+    if (!r) continue
+    const u = c.usage, { w5, w1h } = writes(u), written = w5 + w1h
+    const base = ((u.input_tokens || 0) * r.in + (u.cache_read_input_tokens || 0) * r.read + (u.output_tokens || 0) * r.out) / 1e6
+    const gap = prev ? (c.ts - prev.ts) / 1000 : 0
+    const held = prev && gap > 300 && gap < 3600 && w5 >= written / 2 ? Math.min(written, context(prev.usage)) : 0
+    if (held >= 5000) subCache.rebuilds++
+    subCache.actual += c.cost
+    subCache.with1h += base + (held >= 5000 ? held * r.read + (written - held) * r.w1h : written * r.w1h) / 1e6
+    prev = c
+  }
+}
+if (subCache.actual - subCache.with1h >= 0.5 && settings.subagentPromptCacheTtl !== '1h')
+  leaks.push({ kind: 'subagent-cache', save: subCache.actual - subCache.with1h, title: `Subagent cache expired ${subCache.rebuilds} times between steps`, detail: `Subagents get a 5-minute cache; idle longer and the next step re-writes their whole context. A 1-hour cache costs more per write, and still comes out ${usd(subCache.actual - subCache.with1h)} cheaper on your week ($${subCache.actual.toFixed(2)} → $${subCache.with1h.toFixed(2)}).`, fix: '"subagentPromptCacheTtl": "1h" in ~/.claude/settings.json (ignored while a subscription is in overage)', apply: 'setting subagentPromptCacheTtl=1h' })
+
 const outputs = []
 // 4. One huge tool output that every later turn pays to re-read.
 for (const t of results.filter((t) => !t.sidechain)) {
@@ -186,7 +208,7 @@ leaks.sort((a, b) => b.save - a.save)
 if (args.includes('--json')) {
   const per = {}
   for (const c of all) per[c.session] = (per[c.session] || 0) + c.cost
-  console.log(JSON.stringify({ total, pastCompact, compactAt: COMPACT_AT, autoCompactWindow: settings.autoCompactWindow ?? null, calls: all.length, perSession: per, leaks }, null, 2))
+  console.log(JSON.stringify({ total, pastCompact, compactAt: COMPACT_AT, autoCompactWindow: settings.autoCompactWindow ?? null, subagentCache: subCache, calls: all.length, perSession: per, leaks }, null, 2))
   process.exit(0)
 }
 const C = PLAIN ? { b: '', d: '', r: '', y: '', g: '', x: '' } : { b: '\x1b[1m', d: '\x1b[2m', r: '\x1b[31m', y: '\x1b[33m', g: '\x1b[32m', x: '\x1b[0m' }
