@@ -1,13 +1,46 @@
 {
   "name": "davekiss",
-  "owner": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
-  "metadata": { "description": "Claude Code mods by Dave Kiss" },
+  "owner": {
+    "name": "Dave Kiss",
+    "url": "https://github.com/davekiss"
+  },
+  "metadata": {
+    "description": "Claude Code mods by Dave Kiss"
+  },
   "plugins": [
     {
       "name": "leaks",
       "description": "Find where your Claude Code week went and fix it: /leaks ranks the avoidable spend in your transcripts with one-press fixes, and a strip above the prompt flags a leak while it happens.",
       "source": "./leaks",
       "homepage": "https://github.com/davekiss/mods/tree/main/leaks"
+    },
+    {
+      "name": "shot",
+      "description": "Headless macOS screenshots for agents: capture, mark up, redact, record and find screenshots without taking focus. Bundles the shot MCP server, a skill, /shot and a history pane.",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/davekiss/shot.git",
+        "path": "claude-mod"
+      },
+      "homepage": "https://github.com/davekiss/shot"
+    },
+    {
+      "name": "env",
+      "description": "Edit .env files in a pane inside Claude Code. Claude manages keys and asks you for values without ever seeing them.",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/davekiss/env.git"
+      },
+      "homepage": "https://github.com/davekiss/env"
+    },
+    {
+      "name": "md",
+      "description": "Read, write and review markdown with Claude in a pane inside Claude Code: drafts stream in, comments stay on their words, and Claude suggests edits you accept or reject.",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/davekiss/md.git"
+      },
+      "homepage": "https://github.com/davekiss/md"
     }
   ]
 }
