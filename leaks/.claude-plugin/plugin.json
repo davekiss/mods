@@ -1,0 +1,17 @@
+{
+  "name": "leaks",
+  "version": "0.1.0",
+  "author": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
+  "license": "MIT",
+  "description": "Find where your Claude Code week went and fix it: /leaks ranks the avoidable spend in your transcripts with one-press fixes, and a strip above the prompt flags a leak while it happens.",
+  "keywords": ["usage", "limits", "cache", "compact", "mod"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "warn_at": {
+      "type": "number",
+      "title": "Warn past this many context tokens",
+      "description": "The strip above the prompt flags a session whose context is past this size: every turn re-reads all of it.",
+      "default": 400000
+    }
+  }
+}

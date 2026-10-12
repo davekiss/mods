@@ -1,0 +1,13 @@
+{
+  "name": "davekiss",
+  "owner": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
+  "metadata": { "description": "Claude Code mods by Dave Kiss" },
+  "plugins": [
+    {
+      "name": "leaks",
+      "description": "Find where your Claude Code week went and fix it: /leaks ranks the avoidable spend in your transcripts with one-press fixes, and a strip above the prompt flags a leak while it happens.",
+      "source": "./leaks",
+      "homepage": "https://github.com/davekiss/mods/tree/main/leaks"
+    }
+  ]
+}
