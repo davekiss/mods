@@ -41,6 +41,24 @@
         "url": "https://github.com/davekiss/md.git"
       },
       "homepage": "https://github.com/davekiss/md"
+    },
+    {
+      "name": "burn",
+      "description": "Burn one-word-at-a-time captions into a video: local transcription, a real proofread, and a check of the finished render. Needs the burn CLI.",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/davekiss/burn.git"
+      },
+      "homepage": "https://github.com/davekiss/burn"
+    },
+    {
+      "name": "agentcam",
+      "description": "Record, drive, and export demo videos of terminal programs and X11 apps with the agentcam CLI.",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/davekiss/agentcam.git"
+      },
+      "homepage": "https://github.com/davekiss/agentcam"
     }
   ]
 }
