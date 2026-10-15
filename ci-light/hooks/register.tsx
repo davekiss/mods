@@ -63,11 +63,11 @@ export const register: Register = (on, options) => {
     if (l?.state !== 'red' || (await read($, hidden)) === streakKey(l)) return next(e)
     const { Box, Text, Button } = $.ui.resolve(e)
     const more = l.more ? '+' : ''
+    const onTop = l.pushes > 0 ? `· ${l.pushes}${more} push${l.pushes === 1 && !more ? '' : 'es'} on top` : ''
     return (
-      <Box gap={2}>
-        <Text color={RED} bold>● {l.branch} is red</Text>
-        <Text>for {l.since}{more}</Text>
-        {l.pushes > 0 && <Text>· {l.pushes}{more} push{l.pushes === 1 && !more ? '' : 'es'} on top</Text>}
+      <Box gap={1}>
+        <Text color={RED} bold>{`● ${l.branch} red ${l.since}${more}`}</Text>
+        {onTop && <Text>{onTop}</Text>}
         {l.workflows && <Text dimColor>{l.workflows}</Text>}
         <Button key="ci-light-hide" plain dimColor label="hide" onPress={() => update($, hidden, () => streakKey(l))} />
       </Box>
@@ -78,6 +78,7 @@ export const register: Register = (on, options) => {
   on('ui.render', { component: 'PromptHint' }, async ($, e, next) => {
     const l = await read($, light)
     if (!l || l.state === 'error') return next(e)
-    return next({ ...e, props: { ...e.props, tail: `ci ${l.text}` } })
+    const word = l.state === 'red' ? `● red ${l.since}` : l.state === 'green' ? `● green${l.running ? ' ◐' : ''}` : l.text
+    return next({ ...e, props: { ...e.props, tail: `ci ${word}` } })
   })
 }
