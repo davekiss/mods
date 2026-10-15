@@ -63,7 +63,7 @@ export const register: Register = (on, options) => {
     if (l?.state !== 'red' || (await read($, hidden)) === streakKey(l)) return next(e)
     const { Box, Text, Button } = $.ui.resolve(e)
     const more = l.more ? '+' : ''
-    const onTop = l.pushes > 0 ? `· ${l.pushes}${more} push${l.pushes === 1 && !more ? '' : 'es'} on top` : ''
+    const onTop = l.pushes > 0 ? `· +${l.pushes}${more} push${l.pushes === 1 && !more ? '' : 'es'}` : '' // pushes landed on top of the first red one
     return (
       <Box gap={1}>
         <Text color={RED} bold>{`● ${l.branch} red ${l.since}${more}`}</Text>

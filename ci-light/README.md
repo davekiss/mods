@@ -2,10 +2,10 @@
 
 A Claude Code mod that tells you when main is broken, before you build on it.
 
-- **A red row above the prompt** when your repo's default branch is failing CI: how long it's been red and how many pushes landed on top of the first failure.
+- **A red row above the prompt** when your repo's default branch is failing CI: how long it's been red and how many pushes landed on top of the first failure (`+33 pushes`).
 
   ```
-  ● main red 37d 0h · 33 pushes on top  hide
+  ● main red 37d 0h · +33 pushes  hide
   ```
 
 - **A quiet word under the prompt** otherwise: `ci ● green`, `◐` while a run is going.
