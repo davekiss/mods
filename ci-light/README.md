@@ -8,7 +8,7 @@ A Claude Code mod that tells you when main is broken, before you build on it.
   ● main red 37d 0h · 33 pushes on top  hide
   ```
 
-- **A quiet word under the prompt** otherwise: `ci main ● green`, `◐` while a run is going.
+- **A quiet word under the prompt** otherwise: `ci ● green`, `◐` while a run is going.
 - **The agent is told too.** Once per red streak, the next prompt carries a note that main is failing, so Claude checks whether its change touches the failure before saying it works.
 
 A push is red if any of its workflow runs failed (failure, timed_out, startup_failure, action_required), green when its runs succeeded. Pushes whose runs were all cancelled or skipped don't count either way. A `+` means the streak goes past the last 100 runs.
