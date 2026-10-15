@@ -15,6 +15,12 @@
       "homepage": "https://github.com/davekiss/mods/tree/main/leaks"
     },
     {
+      "name": "ci-light",
+      "description": "Know when main is broken before you build on it: a red row above the prompt says how long your default branch has been failing CI and how many pushes landed on top, and the agent is told too.",
+      "source": "./ci-light",
+      "homepage": "https://github.com/davekiss/mods/tree/main/ci-light"
+    },
+    {
       "name": "shot",
       "description": "Headless macOS screenshots for agents: capture, mark up, redact, record and find screenshots without taking focus. Bundles the shot MCP server, a skill, /shot and a history pane.",
       "source": {

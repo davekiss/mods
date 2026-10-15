@@ -1,0 +1,17 @@
+{
+  "name": "ci-light",
+  "version": "0.2.0",
+  "author": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
+  "license": "MIT",
+  "description": "Know when main is broken before you build on it: a red row above the prompt says how long your repo's default branch has been failing CI and how many pushes landed on top, and the agent is told too.",
+  "keywords": ["ci", "github-actions", "statusline", "mod"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "workflow": {
+      "type": "string",
+      "title": "Only these workflows",
+      "description": "Comma-separated workflow names or files (e.g. \"ci\" or \"ci.yml\") that decide red or green. Empty counts every workflow on the default branch.",
+      "default": ""
+    }
+  }
+}
