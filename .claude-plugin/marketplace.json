@@ -59,6 +59,12 @@
         "url": "https://github.com/davekiss/agentcam.git"
       },
       "homepage": "https://github.com/davekiss/agentcam"
+    },
+    {
+      "name": "contagion",
+      "description": "Trace each as any / @ts-ignore / swallowed catch your agents committed back to the line they copied, and warn the next agent in CLAUDE.md.",
+      "source": "./contagion",
+      "homepage": "https://github.com/davekiss/mods/tree/main/contagion"
     }
   ]
 }
