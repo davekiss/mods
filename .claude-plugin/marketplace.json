@@ -59,6 +59,12 @@
         "url": "https://github.com/davekiss/agentcam.git"
       },
       "homepage": "https://github.com/davekiss/agentcam"
+    },
+    {
+      "name": "skill-audit",
+      "description": "See which skills and plugins Claude actually used in the last 30 days, and turn the rest off with one press (undo included).",
+      "source": "./skill-audit",
+      "homepage": "https://github.com/davekiss/mods/tree/main/skill-audit"
     }
   ]
 }

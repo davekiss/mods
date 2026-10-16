@@ -1,0 +1,17 @@
+{
+  "name": "skill-audit",
+  "version": "0.1.0",
+  "author": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
+  "license": "MIT",
+  "description": "/skill-audit shows which installed skills and plugins your agent actually used in the last 30 days, from your own transcripts, and turns the rest off with one press (undo included).",
+  "keywords": ["skills", "plugins", "context", "audit", "mod"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "keep": {
+      "type": "string",
+      "title": "Never turn these off",
+      "description": "Comma-separated skill or plugin names that /skill-audit leaves on even when unused (a skill you only need once a quarter).",
+      "default": ""
+    }
+  }
+}
