@@ -59,6 +59,12 @@
         "url": "https://github.com/davekiss/agentcam.git"
       },
       "homepage": "https://github.com/davekiss/agentcam"
+    },
+    {
+      "name": "review-bench",
+      "description": "Plant known bugs in a throwaway worktree, run review rounds, and see which round stops finding them",
+      "source": "./review-bench",
+      "homepage": "https://github.com/davekiss/mods/tree/main/review-bench"
     }
   ]
 }

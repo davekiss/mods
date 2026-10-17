@@ -1,0 +1,12 @@
+{
+  "name": "review-bench",
+  "version": "0.1.0",
+  "author": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
+  "license": "MIT",
+  "description": "/review-bench plants known bugs in a throwaway worktree of your repo, runs review rounds, and scores each one: planted bugs newly caught vs other new findings, so you know when another round stops paying.",
+  "keywords": ["code-review", "agents", "benchmark", "git", "mod"],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "model": { "type": "string", "title": "Reviewer model", "description": "Model for review rounds (claude --model). Empty uses your default.", "default": "" }
+  }
+}
