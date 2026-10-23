@@ -1,6 +1,6 @@
 {
   "name": "ci-light",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
   "license": "MIT",
   "description": "Know when main is broken before you build on it: a red row above the prompt says how long your repo's default branch has been failing CI and how many pushes landed on top, and the agent is told too.",
