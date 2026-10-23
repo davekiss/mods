@@ -88,7 +88,8 @@ async function main() {
   if (!json && !process.stdin.isTTY) { try { input = JSON.parse(fs.readFileSync(0, 'utf8') || '{}') } catch {} }
   const cwd = arg('--cwd') || input.workspace?.current_dir || input.cwd || process.cwd()
   const sh = (cmd, args) => {
-    try { return execFileSync(cmd, args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 5000 }).trim() } catch { return '' }
+    // A busy repo's 100 runs come back at 1.4 MB (denoland/deno), past Node's 1 MB default buffer.
+    try { return execFileSync(cmd, args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 10000, maxBuffer: 32 * 1024 * 1024 }).trim() } catch { return '' }
   }
   const emit = (l) => {
     const line = render(l, true)
@@ -117,8 +118,8 @@ async function main() {
   }
 
   const useGh = !!sh('gh', ['auth', 'token'])
-  const api = async (p) => {
-    if (useGh) return JSON.parse(sh('gh', ['api', p]) || 'null')
+  const api = async (p, jq) => {
+    if (useGh) return JSON.parse(sh('gh', ['api', p, ...(jq ? ['--jq', jq] : [])]) || 'null')
     const headers = { 'User-Agent': 'ci-light', Accept: 'application/vnd.github+json' }
     if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`
     const r = await fetch(`https://api.github.com/${p}`, { headers, signal: AbortSignal.timeout(5000) })
@@ -128,7 +129,8 @@ async function main() {
   try {
     const info = await api(`repos/${repo}`)
     const branch = info?.default_branch || 'main'
-    const data = await api(`repos/${repo}/actions/runs?branch=${encodeURIComponent(branch)}&event=push&per_page=100`)
+    const data = await api(`repos/${repo}/actions/runs?branch=${encodeURIComponent(branch)}&event=push&per_page=100`,
+      '{workflow_runs: [.workflow_runs[] | {name, path, head_sha, status, conclusion, updated_at}]}')
     const l = { repo, ...light(branch, data?.workflow_runs ?? [], { workflow }) }
     save(l, l.state === 'none' ? TTL * 5 : TTL)
   } catch (e) {
