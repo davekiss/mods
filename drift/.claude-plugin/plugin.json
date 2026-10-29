@@ -1,0 +1,8 @@
+{
+  "name": "drift",
+  "version": "0.1.0",
+  "author": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
+  "license": "MIT",
+  "description": "Catch an agent turn that quietly changes your global config: drift snapshots ~/.zshrc, ~/.gitconfig, ~/.npmrc, ~/.ssh/config, Claude and Codex settings, crontab, LaunchAgents and global npm packages, names the command that changed them, and undoes it with /drift undo.",
+  "keywords": ["security", "dotfiles", "npm", "postinstall", "mod"]
+}
