@@ -65,6 +65,12 @@
         "url": "https://github.com/davekiss/agentcam.git"
       },
       "homepage": "https://github.com/davekiss/agentcam"
+    },
+    {
+      "name": "drift",
+      "description": "Tells you on the same turn when a command Claude ran changed your ~/.zshrc, ~/.npmrc, ~/.gitconfig, ssh config, crontab or other global config, names the command, and undoes it with /drift:undo",
+      "source": "./drift",
+      "homepage": "https://github.com/davekiss/mods/tree/main/drift"
     }
   ]
 }
