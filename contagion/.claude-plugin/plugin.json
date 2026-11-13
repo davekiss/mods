@@ -1,0 +1,9 @@
+{
+  "name": "contagion",
+  "version": "0.1.0",
+  "author": { "name": "Dave Kiss", "url": "https://github.com/davekiss" },
+  "license": "MIT",
+  "description": "/contagion traces every as any, @ts-ignore, eslint-disable, swallowed catch and workaround comment your agents committed back to the existing line they likely copied, and warns the next agent off those patient zeros in CLAUDE.md.",
+  "keywords": ["agents", "typescript", "code-quality", "git", "mod"],
+  "types": "./types/index.d.ts"
+}
