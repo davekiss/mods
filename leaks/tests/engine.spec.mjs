@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -39,4 +39,10 @@ test('subagents that never idle: a 1-hour cache only costs more, so no leak', ()
   assert.equal(r.subagentCache.rebuilds, 0)
   assert.ok(r.subagentCache.with1h > r.subagentCache.actual)
   assert.equal(r.leaks.some((l) => l.kind === 'subagent-cache'), false)
+})
+
+test('a transcript symlink whose target is gone is skipped, not fatal', () => {
+  const dir = transcripts(10)
+  symlinkSync(join(dir, 'proj', 'gone', 'subagents', 'agent-a2.jsonl'), join(dir, 'proj', 'sess', 'subagents', 'agent-a2.jsonl'))
+  assert.equal(run(dir).subagentCache.rebuilds, 5)
 })

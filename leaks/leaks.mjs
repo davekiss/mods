@@ -65,10 +65,11 @@ const results = [] // big tool outputs
 const toolNames = new Map()
 const sessionInfo = new Map() // session -> { cwd, prompt }
 for (const f of fs.existsSync(ROOT) ? files(ROOT) : []) {
-  if (fs.statSync(f).mtimeMs < since) continue
+  let text // a symlink to a deleted session's transcript, or a file removed mid-scan, is skipped
+  try { if (fs.statSync(f).mtimeMs < since) continue; text = fs.readFileSync(f, 'utf8') } catch { continue }
   const sub = /[/\\]subagents[/\\]|agent-[^/\\]*\.jsonl$/.test(f)
   const agentType = sub ? readJson(f.replace(/\.jsonl$/, '.meta.json'))?.agentType : null
-  for (const line of fs.readFileSync(f, 'utf8').split('\n')) {
+  for (const line of text.split('\n')) {
     if (!line) continue
     let o; try { o = JSON.parse(line) } catch { continue }
     const ts = Date.parse(o.timestamp || '')
