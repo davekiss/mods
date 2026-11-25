@@ -65,6 +65,12 @@
         "url": "https://github.com/davekiss/agentcam.git"
       },
       "homepage": "https://github.com/davekiss/agentcam"
+    },
+    {
+      "name": "instruction-lock",
+      "description": "Pins CLAUDE.md, AGENTS.md, .claude/ and .mcp.json per repo; a pull or merge that changes them stops with the lines and who wrote them, and only you can approve",
+      "source": "./instruction-lock",
+      "homepage": "https://github.com/davekiss/mods/tree/main/instruction-lock"
     }
   ]
 }
